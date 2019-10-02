@@ -40,6 +40,8 @@
 #include "Device.h"
 #include "Flasher.h"
 
+#include <unistd.h>
+
 using namespace std;
 
 class BossaConfig
@@ -379,6 +381,7 @@ main(int argc, char* argv[])
             port->setRTS(true);
             port->setDTR(false);
             port->close();
+            sleep(1);
         }
 
         if (config.portArg.empty())
@@ -483,7 +486,10 @@ main(int argc, char* argv[])
         flash->writeOptions();
 
         if (config.reset)
+        {
+            sleep(1);
             device.reset();
+        }
     }
     catch (exception& e)
     {

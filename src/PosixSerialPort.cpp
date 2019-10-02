@@ -206,7 +206,8 @@ void
 PosixSerialPort::close()
 {
     if (_devfd >= 0)
-        ::close(_devfd);
+        if (::close(_devfd))
+          printf("Error closing port\n");
     _devfd = -1;
 }
 

@@ -225,7 +225,12 @@ EefcFlash::writeOptions()
 {
     if (canBootFlash() && _bootFlash.isDirty() && _bootFlash.get() != getBootFlash())
     {
-        waitFSR();
+        printf("BootFlash waitFSR\n");
+        try {
+            waitFSR(10);
+        } catch (FlashTimeoutError fte) {
+            printf("FlashTimeoutError\n");
+        }
         writeFCR0(_bootFlash.get() ? EEFC_FCMD_SGPB : EEFC_FCMD_CGPB, (canBod() ? 3 : 1));
     }
     if (canBor() && _bor.isDirty() && _bor.get() != getBor())
